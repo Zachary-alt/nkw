@@ -36,22 +36,20 @@ pop(){
 // }
 function getStack(num) {
     let ans = []
-    const dfs = (index,inStack,outStack) => {
+    const dfs = (i,o,inStack,outStack) => {
         if(outStack.length===num) return ans.push(outStack.slice())
-        if(index<num){ // 可以进站
-            inStack.push(index+1)
-            dfs(index+1,inStack.slice(),outStack.slice())
+        if(i<num){ // 可以进站
+            inStack.push(i+1)
+            dfs(i+1,o,inStack.slice(),outStack.slice())
             inStack.pop()
         }
         if(inStack.length){ // 可以出战
             let cur = inStack.pop()
             outStack.push(cur)
-            dfs(index+1,inStack.slice(),outStack.slice())
-            outStack.pop()
-            inStack.push(cur)
+            dfs(i,o+1,inStack.slice(),outStack.slice())
         }
     }
-    dfs(0,[],[])
+    dfs(0,0,[],[])
     return ans
 }
 console.log(23333,getStack(3));
