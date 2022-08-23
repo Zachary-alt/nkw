@@ -16,43 +16,35 @@
 // 数据范围： 2 \le n,m \le 10 \2≤n,m≤10  ， 输入的内容只包含 0 \le val \le 1 \0≤val≤1 
 // 输入描述：
 // 输入两个整数，分别表示二维数组的行数，列数。再输入相应的数组，其中的1表示墙壁，0表示可以走的路。数据保证有唯一解,不考虑有多解的情况，即迷宫只有一条通道。
-let x = 0, y = 0
-function getStep(maps) {
-    for (let i = x; i < maps.length; i++) {
-        let row = maps[i]
-        x = i
-        for (let j = y; j < row.length; j++) {
-            if (row[j] == 0) {
-                let canNext = false
-                
-                if(canNext){
-                    console.log(`(${i},${j})`);
-                    y = j
-                }else{
-                    j--
-                }
-            } else {
-                if (maps[x + 1][y] != 0) {
-                    i -= 2
-                }
-                break
-            }
-        }
-    }
-}
-function checkNext(maps,i,j){
-    let canNext = false
-    if(i==0) {
-        canNext = maps[i + 1][j] != 1 || maps[i][j+1] != 1
-    }else{
-        canNext = maps[i - 1][j] != 1 || maps[i + 1][j] != 1 || maps[i][j+1] != 1
-    }
-    return canNext
+let line1 = readline().split(' ').map(Number);
+let arrs = []
+while (line = readline()) {
+    arrs.push(line.split(' '))
 }
 
-console.log(getStep([
-    [0, 1, 0, 0, 0],
-    [0, 1, 0, 1, 0],
-    [0, 0, 0, 0, 1],
-    [0, 1, 1, 1, 0],
-]));
+function goPath() {
+    let ans = []
+    const dfs = (arr, x, y) => {
+        if (x == line1[0] - 1 && y == line1[1] - 1) {
+            arr.push(`(${x},${y})`)
+            return ans.push(arr.slice())
+        }
+        // 包含重复路径
+        if (arr.includes(`(${x},${y})`)) return
+        if (arrs[x][y] == 0) {
+            arr.push(`(${x},${y})`)
+            if (x < line1[0] - 1 && arrs[x + 1][y] == 0) dfs(arr.slice(), x + 1, y);
+            if (y < line1[1] - 1 && arrs[x][y + 1] == 0) dfs(arr.slice(), x, y + 1);
+            if (x > 0 && arrs[x - 1][y] == 0) dfs(arr.slice(), x - 1, y);
+            if (y > 0 && arrs[x][y - 1] == 0) dfs(arr.slice(), x, y - 1);
+
+        }
+    }
+    dfs([], 0, 0)
+    //     console.log(ans)
+    return ans
+}
+goPath()
+[0].map(item => {
+    console.log(item)
+})
