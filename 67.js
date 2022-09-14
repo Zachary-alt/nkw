@@ -34,4 +34,25 @@ function game24(arr){
     dfs(-1,0,arr)
     return res
 }
+function get24(line){
+    let tag=false
+    function dfs(count,rests){
+        if(rests.length===0){
+            if(count===24) return tag=true;
+            return            
+        }
+        for(let i=0;i<rests.length;i++){
+            let n = rests[i]
+            let newArr=[...rests]
+            newArr.splice(i,1)
+            dfs(count+n,newArr)
+            dfs(count-n,newArr)
+            dfs(count*n,newArr)
+            dfs(count/n,newArr)
+        }
+        
+    }
+    dfs(0,line)
+    console.log(tag)
+}
 console.log(game24([2,9,9,5]));
