@@ -1,6 +1,6 @@
 // HJ89 24点运算
-const tokens = line.split(" ");
-if (line.toLowerCase().includes("joker")) return console.log("ERROR");
+const tokens = '4 2 K A'.split(" ");
+// if (line.toLowerCase().includes("joker")) return console.log("ERROR");
 const res = []
 const d = { 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, J: 11, Q: 12, K: 13, A: 1, 2: 2 }
 const f = (arr, target) => {
@@ -13,19 +13,24 @@ const f = (arr, target) => {
         }
     }
     for (let i = 0; i < arr.length; i++) {
+        
         const a = arr[i]
         const b = arr.slice(0, i).concat(arr.slice(i + 1))
         if (f(b, target + d[a])) {
             res.push('-' + a)
+            console.log(i,res);
             return true
         } else if (f(b, target - d[a])) {
             res.push('+' + a)
+            console.log(i,res);
             return true
         } else if (f(b, target * d[a])) {
             res.push('/' + a)
+            console.log(i,res);
             return true
         } else if (target % d[a] === 0 && f(b, target / d[a])) {
             res.push('*' + a)
+            console.log(i,res);
             return true
         }
     }
